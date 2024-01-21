@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\Mining_parameter;
+use App\Models\Livedata;
 use Illuminate\Support\Facades\Http;
 
 class SendDataService
 {
     public static function Send(): int
     {
-        $response = Http::get('http://localhost:8000/api/last_id');
+        $response = Http::get(config('senddata.api_server_url') . '/api/last_id');
         $data = $response->json();
 
         $last_id_chart1 = $data['last_id_chart1'];
@@ -17,7 +17,7 @@ class SendDataService
         $last_id_chart3 = $data['last_id_chart3'];
         $min_id = min($last_id_chart1, $last_id_chart2, $last_id_chart3);
 
-        $new_data = Mining_parameter::where('id', '>', $min_id)->limit(50)->get();
+        $new_data = Livedata::where('id', '>', $min_id)->limit(50)->get();
         $data_log_count = count($new_data);
         $data['data_log_count'] = $data_log_count;
 
@@ -55,8 +55,8 @@ class SendDataService
 
         $chart3_data = ['id' => $id, 'PITACTIVE' => $PITACTIVE, 'FLOWOUTP' => $FLOWOUTP, 'TGAS' => $TGAS];
 
-        if (count($chart1_data) || count($chart2_data) || count($chart3_data)){
-            $res = Http::post('http://localhost:8000/api/save_data', ['chart1_data' => $chart1_data, 'chart2_data' => $chart2_data, 'chart3_data' => $chart3_data]);
+        if (count($chart1_data) || count($chart2_data) || count($chart3_data)) {
+            $res = Http::post(config('senddata.api_server_url') . '/api/save_data', ['chart1_data' => $chart1_data, 'chart2_data' => $chart2_data, 'chart3_data' => $chart3_data]);
             $res = $res->json();
             $data['status'] = $res['status'];
 
