@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Livedata;
+use App\Models\LiveData;
 use Illuminate\Support\Facades\Http;
 
 class SendDataService
@@ -57,16 +57,13 @@ class SendDataService
 
             $chart3_data = ['id' => $id, 'PITACTIVE' => $PITACTIVE, 'FLOWOUTP' => $FLOWOUTP, 'TGAS' => $TGAS];*/
 
-            $new_data = Livedata::where('id', '>', $last_id)->limit(50)->get();
-
+            $new_data = LiveData::where('id', '>', $last_id)->limit(50)->get();
             if ($new_data) {
                 $res = Http::post(config('senddata.api_server_url') . '/api/save_data', ['data' => $new_data]);
-                $res = $res->json();
-                $data['status'] = $res['status'];
-                return $res->status();
+                echo $res;
+                return $res->status;
             }
         }
-
         return 0;
     }
 }

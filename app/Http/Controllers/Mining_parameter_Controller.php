@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Livedata;
+use App\Models\LiveData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -20,7 +20,7 @@ $last_id_chart2=$data['last_id_chart2'];
 $last_id_chart3=$data['last_id_chart3'];
 $min_id=min($last_id_chart1,$last_id_chart2,$last_id_chart3);
 
-$new_data=Livedata::where('id','>',$min_id)->limit(100)->get();
+$new_data=LiveData::where('id','>',$min_id)->limit(100)->get();
 $data_log_count=count($new_data);
 $data['data_log_count']=$data_log_count;
 
