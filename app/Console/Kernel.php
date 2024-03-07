@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:send-new-data')
             ->everyMinute()
-            ->appendOutputTo(storage_path('logs/mjimani.log'));
+            ->appendOutputTo(storage_path('logs/sendNewData.log'));
     }
 
     /**

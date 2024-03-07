@@ -10,7 +10,7 @@ class SendDataService
     public static function Send(): int
     {
         $response = Http::get(config('senddata.api_server_url') . '/api/last_id');
-        if ($response) {
+        if ($response && $response->status() === 200) {
             $data = $response->json();
 
             $last_id = $data['last_id'];
