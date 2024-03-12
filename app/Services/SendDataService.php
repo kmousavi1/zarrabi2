@@ -18,7 +18,7 @@ class SendDataService
 
             $new_data = LiveData::where('id', '>', $last_id)
                 ->orderBy('id', 'ASC')
-                ->limit(100)
+                ->limit(50)
                 ->get();
             if ($new_data) {
                 $res = Http::post(config('senddata.api_server_url') . '/api/save_data', ['data' => $new_data]);
